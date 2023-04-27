@@ -18,8 +18,7 @@ export class TodoService {
 
   async findAll() {
     const data = this.todoRepo.find();
-
-    return `This action returns all todo`;
+    return data;
   }
 
 
