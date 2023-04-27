@@ -1,12 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang='en'>
+
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>NestJs</title>
-</head>
-<body>
+    <script type='module'>
+     /*  import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+      const socket = io("http://localhost:3000"); 
+      // Menerima pesan dari server
+    socket.on('pesan', (data) => {
+      console.log('Pesan diterima dari server:', data);
+    });
+
+   function kirimPesan() {
+      const pesan = document.getElementById('tombol');
+      console.log(pesan);
+      socket.emit('data', pesan);
+      console.log("tekan tombol");
+    };
+    socket.on('pesan-balasan', (data) => {
+      console.log('Pesan balasan diterima dari server:', data);
+    }); */
+    </script>
+  </head>
+
+  <body>
+
     <h1>Hello NestJs</h1>
-</body>
+    <input type="text" id="input">
+    <button onclick="kirimPesan()">Kirim</button>
+    <ul id='data'></ul>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("http://localhost:3000");
+        socket.emit('pesan',{}, (response) => {
+            renderData(response);
+        }); 
+
+        function kirimPesan() {
+            const pesan = document.getElementById('input');
+          
+            socket.emit('kirim', { activity:pesan.value});
+
+            pesan.value = "";
+            
+        }
+
+        socket.on('pesan-balasan', (response) => {
+            renderData(response);
+        });
+
+        function renderData(data) {
+            const dataOutput = document.getElementById('data');
+            let dataItem = ``;
+            dataItem.innerHTML = `<ul>`;
+            data.forEach((item) => {
+                dataItem += `<li>${item['activity']}</li>`;
+            });
+            dataItem.innerHTML = `</ul>`;
+            dataOutput.innerHTML = dataItem;
+        }
+        
+    </script>
+  </body>
+
+
+
 </html>

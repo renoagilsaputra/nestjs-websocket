@@ -6,18 +6,27 @@ import { FindManyOptions, FindOptionsWhere, Repository, ILike } from 'typeorm';
 
 @Injectable()
 export class TodoService {
+  @InjectRepository(Todo)
   private readonly todoRepo: Repository<Todo>;
   constructor(
 
   ) { }
 
-  create(createTodoDto: CreateTodoDto) {
-
-    return 'This action adds a new todo';
+  async create(createTodoDto: CreateTodoDto) {
+    
+   await this.todoRepo.save(createTodoDto);
+   const data = await this.todoRepo
+   .createQueryBuilder()
+   .getMany();
+    return data;
   }
 
   async findAll() {
-    const data = this.todoRepo.find();
+
+    const data = await this.todoRepo
+      .createQueryBuilder()
+      .getMany();
+
     return data;
   }
 
